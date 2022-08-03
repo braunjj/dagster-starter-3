@@ -3,11 +3,11 @@ import requests
 from dagster import asset, define_asset_job, repository, job
 
 
-@job
-def josh(context):
+@asset 
+def hello(context):
+    """Prints hello to a user """
     name = "Josh"
     context.log.info("Hello," + name)
-
 
 @asset
 def cereals(context):
@@ -24,14 +24,15 @@ def nabisco_cereals(cereals):
     return [row for row in cereals if row["mfr"] == "N"]
 
 all_cereals_job = define_asset_job(name="all_cereals_job")
-
+hello_job = define_asset_job(name="hello_job")
 
 @repository
 def repo():
     return [
-        josh,
+        hello,
         cereals,
         nabisco_cereals,
         all_cereals_job,
+        hello_job,
 
     ]
