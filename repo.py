@@ -4,9 +4,9 @@ from dagster import asset, define_asset_job, repository, job
 
 
 @job
-def josh():
+def josh(context):
     name = "Josh"
-    return("Hello" + name)
+    context.log.info("Hello," + name)
 
 
 @asset
@@ -29,8 +29,9 @@ all_cereals_job = define_asset_job(name="all_cereals_job")
 @repository
 def repo():
     return [
+        josh,
         cereals,
         nabisco_cereals,
         all_cereals_job,
-        josh
+
     ]
