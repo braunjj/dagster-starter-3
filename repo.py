@@ -4,18 +4,17 @@ from dagster import asset, define_asset_job, repository
 
 
 @asset
-def cereals():
+def cereals(context):
     response = requests.get("https://docs.dagster.io/assets/cereal.csv")
     lines = response.text.split("\n")
     cereal_rows = [row for row in csv.DictReader(lines)]
-    print("Hello world")
+    context.log.info("Hello, world!")
     return cereal_rows
 
 
 @asset
 def nabisco_cereals(cereals):
-    """Cereals manufactured by Nabisco"""
-    print("Hello world")
+    """Cereals manufactured by Nabisco - Updated"""
     return [row for row in cereals if row["mfr"] == "N"]
 
 
