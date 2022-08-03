@@ -4,7 +4,7 @@ from dagster import asset, define_asset_job, repository, job
 
 
 @job
-def josh:
+def josh():
     name = "Josh"
     return("Hello" + name)
 
