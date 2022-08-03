@@ -1,6 +1,12 @@
 import csv
 import requests
-from dagster import asset, define_asset_job, repository
+from dagster import asset, define_asset_job, repository, job
+
+
+@job
+def josh:
+    name = "Josh"
+    return("Hello" + name)
 
 
 @asset
@@ -14,9 +20,8 @@ def cereals(context):
 
 @asset
 def nabisco_cereals(cereals):
-    """Cereals manufactured by Nabisco - Updated"""
+    """Cereals manufactured by Nabisco"""
     return [row for row in cereals if row["mfr"] == "N"]
-
 
 all_cereals_job = define_asset_job(name="all_cereals_job")
 
@@ -27,4 +32,5 @@ def repo():
         cereals,
         nabisco_cereals,
         all_cereals_job,
+        josh
     ]
